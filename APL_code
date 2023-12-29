@@ -1,0 +1,88 @@
+//---------Right Motor---------------
+#define enB 6 //Enable2 L293 Pin enB 
+#define in3 7 //back right 
+#define in4 8 //forward right 
+//---------Left Motor---------------
+#define enA 3//Enable1 L293 Pin enA 
+#define in1 2 //forward left 
+#define in2 5 //back left 
+/***********/
+#define R_S 12   //ir sensor Right
+#define L_S 9    //ir sensor Left
+
+#define C_S 10  //ir sensor center left
+/***********/
+void setup(){ 
+  Serial.begin(9600);
+  pinMode(R_S, INPUT); 
+  pinMode(L_S, INPUT);
+
+  pinMode(C_S, INPUT);
+  pinMode(enA, OUTPUT); 
+  pinMode(in1, OUTPUT); 
+  pinMode(in2, OUTPUT); 
+  pinMode(in3, OUTPUT); 
+  pinMode(in4, OUTPUT); 
+  pinMode(enB, OUTPUT);
+}
+void loop(){
+  analogWrite(enA, 80);
+  analogWrite(enB, 100);
+
+  bool R = digitalRead(R_S);
+  bool L = digitalRead(L_S);
+
+  bool C = digitalRead(C_S);
+  if (C == 0 && R == 1 && L == 1){
+    
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, LOW);
+
+  }
+  else if(R == 1){
+    analogWrite(enA, 80);
+    analogWrite(enB, 100);
+
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+  }
+  else if(C == 1){
+    
+    analogWrite(enA, 120);
+    analogWrite(enB, 140);
+
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+  }
+  else if (L == 1){
+    
+    analogWrite(enA, 90);
+    analogWrite(enB, 110);
+
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+  }
+  else if(C == 0 && R == 0 && L == 0){
+
+    analogWrite(enA, 120);
+    analogWrite(enB, 140);
+
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+  }
+}
